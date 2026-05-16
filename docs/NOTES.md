@@ -265,6 +265,113 @@ Be careful with infinite incremental loops, because the value keeps growing unti
         
 - SpriteRenderer.DOColor tweens SpriteRenderer.color directly without creating a new material instance, making it more lightweight and usually preferable for standard sprite color/fade effects.
 
+## Tween Controls
+
+Based on `Assets/Scripts/TweenControl.cs`.
+
+Store a tween in a `Tween` variable when you want to control it after it has been created.
+
+```csharp
+using UnityEngine;
+using DG.Tweening;
+
+public class TweenControl : MonoBehaviour
+{
+    Tween tween;
+
+    void Start()
+    {
+        tween = transform.DOMoveX(5, 2)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.OutSine);
+    }
+}
+```
+
+`transform.DOMoveX(5, 2)` creates the tween. Assigning it to `tween` lets other methods pause, resume, or stop that same tween later.
+
+In this example, the tween moves the object to `x = 5` over `2` seconds, loops forever with `LoopType.Yoyo`, and uses `Ease.OutSine`.
+
+### Pause and play
+
+Use `Pause` to stop a tween without destroying it:
+
+```csharp
+if (Input.GetKeyDown(KeyCode.Space))
+{
+    tween.Pause();
+    Debug.Log("Tween paused");
+}
+```
+
+Pressing `Space` pauses the tween at its current position.
+
+Use `Play` to resume a paused tween:
+
+```csharp
+if (Input.GetKeyDown(KeyCode.Q))
+{
+    tween.Play();
+    Debug.Log("Tween played");
+}
+```
+
+Pressing `Q` continues the tween from where it was paused.
+
+### Kill
+
+Use `Kill` to stop and destroy a tween:
+
+```csharp
+if (Input.GetKeyDown(KeyCode.E))
+{
+    tween.Kill();
+    Debug.Log("Tween killed");
+}
+```
+
+Pressing `E` kills the tween. After a tween is killed, it cannot be resumed with `Play`; you need to create a new tween if you want the animation to run again.
+
+### Full example
+
+```csharp
+using UnityEngine;
+using DG.Tweening;
+
+public class TweenControl : MonoBehaviour
+{
+    Tween tween;
+
+    void Start()
+    {
+        tween = transform.DOMoveX(5, 2)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.OutSine);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            tween.Pause();
+            Debug.Log("Tween paused");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            tween.Play();
+            Debug.Log("Tween played");
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            tween.Kill();
+            Debug.Log("Tween killed");
+        }
+    }
+}
+```
+
 ## References
 
 1. [Easing Function Cheat Sheet](https://easings.net/)
