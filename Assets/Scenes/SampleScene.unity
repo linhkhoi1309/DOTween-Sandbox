@@ -351,7 +351,6 @@ GameObject:
   - component: {fileID: 622047685}
   - component: {fileID: 622047684}
   - component: {fileID: 622047686}
-  - component: {fileID: 622047687}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -442,21 +441,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 622047683}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71a1b4509a6963f468f22c5c143b6275, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d374f5e1db583f40a7f36a21afa76f5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Rotate
---- !u!114 &622047687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 622047683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21f3aa30ed224674eaa9de02d2f11a74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SequenceDemo
+  m_EditorClassIdentifier: Assembly-CSharp::SequenceDemo2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

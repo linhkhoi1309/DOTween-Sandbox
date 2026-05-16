@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class SequenceDemo : MonoBehaviour
+public class SequenceDemo1 : MonoBehaviour
 {
     void Start()
     {
