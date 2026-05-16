@@ -206,6 +206,58 @@ Use this pattern when several animation changes should feel like one combined ac
 
 ## Loop
 
+Based on `Assets/Scripts/Loop.cs`.
+
+Use `SetLoops` when you want a tween to repeat.
+
+```csharp
+transform.DOMoveX(3, 1).SetLoops(5, LoopType.Yoyo);
+```
+
+`SetLoops(5, LoopType.Yoyo)` repeats the tween `5` times. The `Yoyo` loop type makes the tween go forward, then backward, then forward again.
+
+In this example, the object moves to `x = 3` over `1` second, then moves back toward its starting position, repeating that back-and-forth motion until the loop count is finished.
+
+Use `-1` for infinite loops:
+
+```csharp
+transform.DOScale(new Vector3(2, 2, 2), 1)
+    .SetLoops(-1, LoopType.Yoyo);
+```
+
+This scales the object to `(2, 2, 2)` over `1` second, then scales it back down, repeating forever.
+
+### Loop types
+
+`LoopType.Yoyo` plays forward, then backward:
+
+```csharp
+transform.DOScale(new Vector3(2, 2, 2), 1)
+    .SetLoops(-1, LoopType.Yoyo);
+```
+
+This is useful for pulsing animations, such as an object growing and shrinking.
+
+`LoopType.Restart` plays forward, jumps back to the start value, then plays forward again:
+
+```csharp
+transform.DOScale(new Vector3(2, 2, 2), 1)
+    .SetLoops(-1, LoopType.Restart);
+```
+
+This repeatedly scales from the original size to `(2, 2, 2)`. Each loop restarts from the original scale instead of reversing smoothly.
+
+`LoopType.Incremental` adds the tween's change each time it loops:
+
+```csharp
+transform.DOScale(new Vector3(2, 2, 2), 1)
+    .SetLoops(-1, LoopType.Incremental);
+```
+
+This scales the object larger each loop. If the object starts at scale `(1, 1, 1)`, the first loop scales toward `(2, 2, 2)`, then the next loop continues increasing from there.
+
+Be careful with infinite incremental loops, because the value keeps growing until the tween is stopped.
+
 ## Miscellaneous
 ### Difference between SpriteRenderer.material.DOColor and SpriteRenderer.DOColor
 
