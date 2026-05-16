@@ -772,7 +772,25 @@ PlayerSettings:
   webGLCloseOnQuit: 0
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Android: DOTWEEN_UITOOLKIT;DOTWEEN
+    EmbeddedLinux: DOTWEEN_UITOOLKIT;DOTWEEN
+    GameCoreScarlett: DOTWEEN_UITOOLKIT;DOTWEEN
+    GameCoreXboxOne: DOTWEEN_UITOOLKIT;DOTWEEN
+    Kepler: DOTWEEN_UITOOLKIT;DOTWEEN
+    LinuxHeadlessSimulation: DOTWEEN_UITOOLKIT;DOTWEEN
+    Nintendo Switch: DOTWEEN_UITOOLKIT;DOTWEEN
+    Nintendo Switch 2: DOTWEEN_UITOOLKIT;DOTWEEN
+    PS4: DOTWEEN_UITOOLKIT;DOTWEEN
+    PS5: DOTWEEN_UITOOLKIT;DOTWEEN
+    QNX: DOTWEEN_UITOOLKIT;DOTWEEN
+    Standalone: DOTWEEN_UITOOLKIT;DOTWEEN
+    VisionOS: DOTWEEN_UITOOLKIT;DOTWEEN
+    WebGL: DOTWEEN_UITOOLKIT;DOTWEEN
+    Windows Store Apps: DOTWEEN_UITOOLKIT;DOTWEEN
+    XboxOne: DOTWEEN_UITOOLKIT;DOTWEEN
+    iPhone: DOTWEEN_UITOOLKIT;DOTWEEN
+    tvOS: DOTWEEN_UITOOLKIT;DOTWEEN
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
