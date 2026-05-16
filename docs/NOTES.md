@@ -204,7 +204,10 @@ This sequence starts by moving to `x = 3` over `1` second. During that same `1` 
 
 Use this pattern when several animation changes should feel like one combined action.
 
-## Difference between SpriteRenderer.material.DOColor and SpriteRenderer.DOColor
+## Loop
+
+## Miscellaneous
+### Difference between SpriteRenderer.material.DOColor and SpriteRenderer.DOColor
 
 - SpriteRenderer.material.DOColor tweens the material's _Color property. Accessing .material creates a unique material instance for this renderer, which may increase memory usage and reduce batching efficiency if used often.
         
