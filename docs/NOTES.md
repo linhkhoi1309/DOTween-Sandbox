@@ -374,16 +374,18 @@ public class TweenControl : MonoBehaviour
 
 ## UI Animation Examples
 
-Based on `Assets/Scripts/UIController.cs`.
+Based on `Assets/Scripts/UIController1.cs`, `Assets/Scripts/UIController2.cs`, and `Assets/Scripts/UIController3.cs`.
 
-This example connects Unity UI `Button` clicks to DOTween animations.
+### UIController1: button click animations
+
+`UIController1` connects Unity UI `Button` clicks to DOTween animations.
 
 ```csharp
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
+public class UIController1 : MonoBehaviour
 {
     [SerializeField]
     private Button playButton;
@@ -501,6 +503,113 @@ void OnDestroy()
 ```
 
 This cleans up the button events and avoids leaving references behind after the UI controller is gone.
+
+### UIController2: slide-in buttons
+
+`UIController2` animates a list of UI buttons into place when the scene starts.
+
+```csharp
+using UnityEngine;
+using DG.Tweening;
+
+public class UIController2 : MonoBehaviour
+{
+    public RectTransform[] buttons;
+    public float slideDuration = 0.6f;
+    public float delayBetweenButtons = 0.1f;
+
+    private float slideHorizontalOffset = -500f;
+}
+```
+
+The `buttons` array stores the UI elements that should slide in. Each element is a `RectTransform`, which is the transform type used by Unity UI objects.
+
+`slideDuration` controls how long each button takes to move into place. `delayBetweenButtons` controls the stagger between buttons, so they do not all move at the exact same time.
+
+The animation starts from `Start`:
+
+```csharp
+void Start()
+{
+    PlaySlideInAnimation();
+}
+```
+
+Inside `PlaySlideInAnimation`, each button's original anchored position is saved as the target position:
+
+```csharp
+Vector2 targetPos = button.anchoredPosition;
+```
+
+Then the button is moved off to the left before the tween starts:
+
+```csharp
+button.anchoredPosition = new Vector2(slideHorizontalOffset, targetPos.y);
+```
+
+Finally, `DOAnchorPos` moves it back to the saved target position:
+
+```csharp
+button.DOAnchorPos(targetPos, slideDuration)
+    .SetDelay(i * delayBetweenButtons)
+    .SetEase(Ease.OutBack);
+```
+
+`DOAnchorPos` is the UI version of a move tween for `RectTransform` objects. It changes the button's `anchoredPosition` instead of its world position.
+
+`SetDelay(i * delayBetweenButtons)` creates the staggered effect. The first button starts immediately, the second waits `0.1` seconds, the third waits `0.2` seconds, and so on.
+
+`Ease.OutBack` makes each button slightly overshoot its final position before settling back, which gives the slide-in a snappy UI feel.
+
+Full example:
+
+```csharp
+void PlaySlideInAnimation()
+{
+    for (int i = 0; i < buttons.Length; i++)
+    {
+        RectTransform button = buttons[i];
+        Vector2 targetPos = button.anchoredPosition;
+
+        button.anchoredPosition = new Vector2(slideHorizontalOffset, targetPos.y);
+
+        button.DOAnchorPos(targetPos, slideDuration)
+            .SetDelay(i * delayBetweenButtons)
+            .SetEase(Ease.OutBack);
+    }
+}
+```
+
+### UIController3: fade in a CanvasGroup
+
+`UIController3` fades in a `CanvasGroup` when the scene starts.
+
+```csharp
+using DG.Tweening;
+using UnityEngine;
+
+public class UIController3 : MonoBehaviour
+{
+    public CanvasGroup canvasGroup;
+    public float fadeDuration = 1f;
+
+    void Start()
+    {
+        canvasGroup.DOFade(1f, fadeDuration);
+    }
+}
+```
+
+A `CanvasGroup` controls the opacity of a UI object and its children. This is useful when you want to fade a whole panel, menu, or group of buttons at once.
+
+`DOFade(1f, fadeDuration)` animates the CanvasGroup's alpha to `1`, making it fully visible over `fadeDuration` seconds.
+
+For the fade-in to be visible, the CanvasGroup should usually start with alpha set to `0` in the Inspector or before the tween starts:
+
+```csharp
+canvasGroup.alpha = 0f;
+canvasGroup.DOFade(1f, fadeDuration);
+```
 
 ## References
 

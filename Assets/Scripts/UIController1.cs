@@ -2,7 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
+public class UIController1 : MonoBehaviour
 {
     [SerializeField]
     private Button playButton;
