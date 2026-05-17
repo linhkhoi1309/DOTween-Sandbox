@@ -372,6 +372,136 @@ public class TweenControl : MonoBehaviour
 }
 ```
 
+## UI Animation Examples
+
+Based on `Assets/Scripts/UIController.cs`.
+
+This example connects Unity UI `Button` clicks to DOTween animations.
+
+```csharp
+using UnityEngine;
+using DG.Tweening;
+using UnityEngine.UI;
+
+public class UIController : MonoBehaviour
+{
+    [SerializeField]
+    private Button playButton;
+
+    [SerializeField]
+    private Button settingsButton;
+
+    [SerializeField]
+    private Button exitButton;
+}
+```
+
+The three button fields are marked with `[SerializeField]`, so they can be assigned from the Unity Inspector while still staying `private` in code.
+
+### Adding button listeners
+
+Use `onClick.AddListener` to connect each button to a method.
+
+```csharp
+void Start()
+{
+    playButton.onClick.AddListener(OnPlayButtonClicked);
+    settingsButton.onClick.AddListener(OnSettingsButtonClicked);
+    exitButton.onClick.AddListener(OnExitButtonClicked);
+}
+```
+
+When a button is clicked, Unity calls the matching method:
+
+```csharp
+private void OnPlayButtonClicked()
+{
+    PlayStartButtonAnimation();
+}
+
+private void OnSettingsButtonClicked()
+{
+    PlaySettingsButtonAnimation();
+}
+
+private void OnExitButtonClicked()
+{
+    PlayExitButtonAnimation();
+}
+```
+
+This keeps the click-handling code separate from the animation code, which makes the script easier to read and expand.
+
+### Play button animation
+
+The play button grows slightly, then returns to its original size.
+
+```csharp
+void PlayStartButtonAnimation()
+{
+    playButton.transform.DOScale(1.2f, 0.2f)
+        .SetEase(Ease.OutBounce)
+        .OnComplete(() =>
+        {
+            playButton.transform.DOScale(1f, 0.2f);
+        });
+}
+```
+
+`DOScale(1.2f, 0.2f)` scales the button up to `1.2` over `0.2` seconds. `OnComplete` starts a second tween after the first one finishes, scaling the button back to `1`.
+
+### Settings button animation
+
+The settings button rotates back and forth.
+
+```csharp
+void PlaySettingsButtonAnimation()
+{
+    settingsButton.transform.DORotate(new Vector3(0, 0, 30), 0.2f, RotateMode.Fast)
+        .SetLoops(2, LoopType.Yoyo)
+        .SetEase(Ease.InOutSine);
+}
+```
+
+`DORotate(new Vector3(0, 0, 30), 0.2f, RotateMode.Fast)` rotates the button to `30` degrees on the `z` axis over `0.2` seconds.
+
+`SetLoops(2, LoopType.Yoyo)` makes the button rotate forward and back, creating a quick wiggle effect.
+
+### Exit button animation
+
+The exit button uses a punch scale animation.
+
+```csharp
+void PlayExitButtonAnimation()
+{
+    exitButton.transform.DOPunchScale(Vector3.one * 0.3f, 0.3f, 10, 1);
+}
+```
+
+`DOPunchScale` briefly pushes the button away from its current scale, then returns it. It is useful for quick click feedback because it feels like a pop instead of a smooth resize.
+
+The parameters are:
+
+1. `Vector3.one * 0.3f`: how much scale is added during the punch.
+2. `0.3f`: how long the punch lasts.
+3. `10`: how much vibration the punch has.
+4. `1`: how elastic the punch feels.
+
+### Removing button listeners
+
+Remove listeners in `OnDestroy` when the object is destroyed.
+
+```csharp
+void OnDestroy()
+{
+    playButton.onClick.RemoveListener(OnPlayButtonClicked);
+    settingsButton.onClick.RemoveListener(OnSettingsButtonClicked);
+    exitButton.onClick.RemoveListener(OnExitButtonClicked);
+}
+```
+
+This cleans up the button events and avoids leaving references behind after the UI controller is gone.
+
 ## References
 
 1. [Easing Function Cheat Sheet](https://easings.net/)
